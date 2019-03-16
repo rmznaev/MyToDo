@@ -15,6 +15,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var items: [String] = []
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
 //        self.table.isEditing = true
@@ -26,7 +27,9 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let itemsObject = UserDefaults.standard.object(forKey: "items")
         
         if let tempItems = itemsObject as? [String] {
+            
             items = tempItems
+            
         }
         
         table.reloadData()
@@ -34,24 +37,36 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return items.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "Cell")
+        
         cell.textLabel?.text = items[indexPath.row]
+        
         cell.textLabel?.textColor = .white
+        
         cell.backgroundColor = UIColor.clear
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
         if editingStyle == UITableViewCell.EditingStyle.delete {
+            
             items.remove(at: indexPath.row)
+            
             table.reloadData()
+            
             UserDefaults.standard.set(items, forKey: "items")
+            
         }
+        
     }
     
     /*
@@ -79,24 +94,35 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 class SwipableTabVC : TasksViewController {
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         let left = UISwipeGestureRecognizer(target: self, action: #selector(swipeLeft))
+        
         left.direction = .left
+        
         self.view.addGestureRecognizer(left)
         
         let right = UISwipeGestureRecognizer(target: self, action: #selector(swipeRight))
+        
         right.direction = .right
+        
         self.view.addGestureRecognizer(right)
+        
     }
     
     @objc func swipeLeft() {
+        
         let total = self.tabBarController!.viewControllers!.count - 1
+        
         tabBarController!.selectedIndex = min(total, tabBarController!.selectedIndex + 1)
         
     }
     
     @objc func swipeRight() {
+        
         tabBarController!.selectedIndex = max(0, tabBarController!.selectedIndex - 1)
+        
     }
+    
 }
